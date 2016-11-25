@@ -14,7 +14,7 @@
                             <label for="name" class="col-md-4 control-label">Username</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
+                                <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" maxlength='32' required autofocus>
 
                                 @if ($errors->has('username'))
                                     <span class="help-block">
@@ -51,7 +51,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail (optional)</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
