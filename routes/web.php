@@ -12,9 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('mob.index'));
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::resource('mob', 'MobController');

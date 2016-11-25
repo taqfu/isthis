@@ -13,7 +13,9 @@ class MobController extends Controller
      */
     public function index()
     {
-        //
+        return View("Mob.index",[
+            'mobs'=>Mob::get();
+        ]);
     }
 
     /**
@@ -34,7 +36,13 @@ class MobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "mobName"=>"required|string|max:255|unique:mobs,name"
+        ])
+        $mob = new Mob;
+        $mob->name = $request->mobName;
+        $mob->save();
+        return back();
     }
 
     /**
