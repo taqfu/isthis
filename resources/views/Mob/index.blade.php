@@ -1,6 +1,13 @@
 @extends ('layouts.app')
 @section ('content')
-    @include ('Mob.create')
+    @if (Auth::user())
+        @include ('Mob.create')
+    @endif 
+    @foreach ($errors->all() as $error)
+        <div class='text-danger'>
+            {{$error}}
+        </div>
+    @endforeach
     @forelse ($mobs as $mob)
         <div>
             {{$mob->name}}
@@ -9,5 +16,5 @@
         <div>
             There are no Mobs. OMG! How is this possible?!?
         </div>
-    @endforeach
+    @endforelse
 @endsection
