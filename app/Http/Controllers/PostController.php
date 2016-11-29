@@ -34,7 +34,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "title"=>"required|string|max:150",
+            "type"=>"required|boolean",
+            "url"=>"url",
+            "text"=>"string",
+        ]); 
+        $post = new Post;
+        if (Auth::user()){
+            $post->user_id=Auth::user()->id;    
+        }
+        $post->mob_id = $request->mobID;
+        $post->title = $request->title;
+        if ($post->type){
+            $post->text = $request->text;
+        } else {
+            $post->url = $request->url;
+        }
+        $post->save();
+        
     }
 
     /**

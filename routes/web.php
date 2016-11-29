@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::resource('mob', 'MobController');
-Route::resource('post', 'MobController');
+Route::resource('post', 'PostController');
