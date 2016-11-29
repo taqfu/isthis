@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\Post;
+use Auth;
 
 class PostController extends Controller
 {
@@ -40,13 +42,18 @@ class PostController extends Controller
             "url"=>"url",
             "text"=>"string",
         ]); 
+        if ((trim($request->url)=="" && trim($request->text)=="")
+            || ($request->type && trim($request->text)=="")
+            || (!$request->type && trim($request->url)=="")){
+            return back()->withErrors('URL or text must be filled out before submititng.');
+        }
         $post = new Post;
         if (Auth::user()){
             $post->user_id=Auth::user()->id;    
         }
         $post->mob_id = $request->mobID;
         $post->title = $request->title;
-        if ($post->type){
+        if ($request->type){
             $post->text = $request->text;
         } else {
             $post->url = $request->url;
@@ -63,8 +70,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        return View('Post.show', [
+            'post'=>Post::find($id),
+        ]);
     }
+        
 
     /**
      * Show the form for editing the specified resource.
