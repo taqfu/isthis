@@ -7,26 +7,26 @@
         <input type='hidden' name='mobID' value='{{$mob_id}}' />
         <div class='form-group'>
             <label>Title</label>
-            <input type='text' name='title' class='form-control' value="{{old('title')}}"/>
+            <input type='text' name='title' class='form-control' value="{{old('title')}}">
         </div>
         <div class='form-group'>
             <label>Type:</label>
             <label><input type='radio' name='type' value="1"
               id='replace-primary-post' class='replace-primary-button'
-              @if (old('type')=="1")
+              @if (old('type')||old('type')==null)
               checked
               @endif
               />text</label>
             <label><input type='radio' name='type' value="0"
               id='replace-secondary-post' class='replace-secondary-button'
-              @if (old('type')=="0")
+              @if (old('type')!=NULL && !old('type'))
               checked
               @endif
               />link</label>
 
         </div>
         <div  id='post-primary' class="form-group
-        @if (!old('type'))
+        @if (old('type')!=NULL && !old('type'))
             hidden
         @endif
         ">
@@ -34,7 +34,7 @@
             <textarea name='text' class='form-control' value="{{old('text')}}"></textarea>
         </div>
         <div id='post-secondary' class="form-group
-        @if (old('type'))
+        @if (old('type')||old('type')==null)
             hidden
         @endif
         ">
