@@ -41,7 +41,7 @@ class PostController extends Controller
             "type"=>"required|boolean",
             "url"=>"url",
             "text"=>"string",
-        ]); 
+        ]);
         if ((trim($request->url)=="" && trim($request->text)=="")
             || ($request->type && trim($request->text)=="")
             || (!$request->type && trim($request->url)=="")){
@@ -49,7 +49,7 @@ class PostController extends Controller
         }
         $post = new Post;
         if (Auth::user()){
-            $post->user_id=Auth::user()->id;    
+            $post->user_id=Auth::user()->id;
         }
         $post->mob_id = $request->mobID;
         $post->title = $request->title;
@@ -59,7 +59,7 @@ class PostController extends Controller
             $post->url = $request->url;
         }
         $post->save();
-        
+        return back();
     }
 
     /**
@@ -74,7 +74,7 @@ class PostController extends Controller
             'post'=>Post::find($id),
         ]);
     }
-        
+
 
     /**
      * Show the form for editing the specified resource.
