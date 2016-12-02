@@ -4,10 +4,12 @@
         @foreach ($errors->all() as $error)
             <div class='text-danger'>{{$error}}</div>
         @endforeach
+        {{var_dump(old('title'))}}
         <input type='hidden' name='mobID' value='{{$mob_id}}' />
         <div class='form-group'>
             <label>Title</label>
-            <input type='text' name='title' class='form-control' value="{{old('title')}}">
+            <input type='text' name='title' class='form-control'
+              value="{{old('title')}}" >
         </div>
         <div class='form-group'>
             <label>Type:</label>
@@ -31,7 +33,7 @@
         @endif
         ">
             <label>Text:</label>
-            <textarea name='text' class='form-control' value="{{old('text')}}"></textarea>
+            <textarea name='text' class='form-control'>{{old('text')}}</textarea>
         </div>
         <div id='post-secondary' class="form-group
         @if (old('type')||old('type')==null)
