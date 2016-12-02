@@ -10,4 +10,8 @@ class Post extends Model
         return $this->belongsTo('App\User');
 
     } 
+    public function mob(){
+        return $this->belongsTo('App\mob');
+
+    } 
 }
