@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Auth;
-
-use App\Judgement;
+use App\Comment;
 use Illuminate\Http\Request;
 
-class JudgementController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,16 +37,21 @@ class JudgementController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "judgement"=>"required|boolean",
-            "postID"=>"integer|min:1",
+            "text"=>"required|string",
+            "replyTo"=>"required|integer|min:0",
+            "postID"=>"required|integer|min:0",
         ]);
-        $judgement = new Judgement;
-        $judgement->for = $request->judgement;
-        $judgement->post_id = $request->postID;
-        $judgement->user_id = Auth::user()->id;
-        $judgement->save();
+        if ($request->replyTo>0){
+            $reply = Comment::find($request->replyTo);
+        }
+        $comment = new Comment; 
+        $comment->text = $request->text;
+        $comment->reply_to = $request->replyTo;
+        $comment->post_id = $request->postID;
+        $comment->user_id = Auth::user()->id; 
+        $comment->level = isset($reply) ? $reply->level : 0; 
+        $comment->save();
         return back();
-        
     }
 
     /**

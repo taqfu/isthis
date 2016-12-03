@@ -1,6 +1,15 @@
-
+<?php
+use App\Judgement;
+$judgement = Judgement::fetch_current($post->id);
+?>
 @extends ('layouts.app')
 @section('content')
+<div class='text-center'>
+@foreach ($errors->all() as $error)
+    {{var_dump($error)}}
+    <div class='text-danger'>{{$error}}</div>
+@endforeach
+</div>
 <h1 class='text-center' >
     {{$post->title}}
 </h1>
@@ -22,13 +31,26 @@
         @endif
     </h4>
     <h4 class='col-md-6 text-right'>
-            {{var_dump(\App\judgement::fetch_current($post->id))}}
         @if (Auth::user())
             {{$post->mob->name}}? 
-            @include ('Judgement.create')
+            @if (Judgement::have_they_already_judged($post->id))
+                @include('Judgement.show')
+            @else
+                @include ('Judgement.create')
+            @endif
         @else
-            {{var_dump(\App\judgement::fetch_current($post->id))}}
+            @include('Judgement.show')
         @endif 
     </h4>
+@include ('Comment.create', ['reply_to'=>0])
+</div>
+<div>
+@foreach ($comments as $comment)
+    <div class='row'>
+        <div class='col-md-6'>
+        {{$comment->id}} - {{$comment->text}} 
+        </div> 
+    </div>
+@endforeach
 </div>
 @endsection

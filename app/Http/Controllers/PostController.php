@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Comment;
 use \App\Post;
 use Auth;
 
@@ -72,6 +73,7 @@ class PostController extends Controller
     {
         return View('Post.show', [
             'post'=>Post::find($id),
+            'comments'=>Comment::where('post_id', $id)->get(),
         ]);
     }
 
