@@ -2,7 +2,7 @@
 <?php
     $site_root =
       $_SERVER['SERVER_NAME']=="taqfu.com"
-      ? "http://taqfu.com/dev-env/pmm/public/"
+      ? "http://taqfu.com/dev-env/isthis/public"
       : $_SERVER['SERVER_NAME'];
 ?>
 <html lang="en">
@@ -90,5 +90,7 @@
 
     <!-- Scripts -->
     <script src="{{$site_root}}/js/app.js"></script>
+    <script src="{{$site_root}}/js/js.js"></script>
+    <script src="{{$site_root}}/js/hide.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <?php
-use App\Judgement;
-$judgement = Judgement::fetch_current($post->id);
+    use App\Comment;
+    use App\Judgement;
+    $judgement = Judgement::fetch_current($post->id);
 ?>
 @extends ('layouts.app')
 @section('content')
@@ -42,15 +43,43 @@ $judgement = Judgement::fetch_current($post->id);
             @include('Judgement.show')
         @endif 
     </h4>
-@include ('Comment.create', ['reply_to'=>0])
 </div>
+
+    @include ('Comment.create', ['reply_to'=>0])
 <div>
 @foreach ($comments as $comment)
     <div class='row'>
-        <div class='col-md-6'>
-        {{$comment->id}} - {{$comment->text}} 
-        </div> 
+        @if ($comment->level>0)
+            <div class='col-md-{{$comment->level}}'></div>
+        @endif
+        <div class='col-md-8'>
+            <div class='panel panel-default '>
+                <div class='panel-heading'>
+                    @if (Auth::user() && Comment::does_user_own_this($comment->id))
+                        <input type='button' class='btn btn-danger' value='X'/>
+                    @endif
+                    {{$comment->created_at}} - 
+                    @if (Auth::guest())
+                        Anonymous
+                    @else
+                        {{$comment->user->username}}
+                    @endif 
+                </div><div class='panel-body'>
+                    {{$comment->text}}
+                </div>
+                <div class'panel-footer'>
+                    @if($comment->level<4)
+                        <input type='button' value='Reply'
+                          id='show-create-comment{{$comment->id}}' class='show-button btn btn-link'/>
+                    @endif
+                    
+                </div>
+            </div>
+            @if($comment->level<4)
+                @include ('Comment.create', ['reply_to'=>$comment->id])
+            @endif
+        </div>
     </div>
-@endforeach
+    @endforeach
 </div>
 @endsection

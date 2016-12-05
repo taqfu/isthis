@@ -4,7 +4,6 @@
         @foreach ($errors->all() as $error)
             <div class='text-danger'>{{$error}}</div>
         @endforeach
-        {{var_dump(old('title'))}}
         <input type='hidden' name='mobID' value='{{$mob_id}}' />
         <div class='form-group'>
             <label>Title</label>

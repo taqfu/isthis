@@ -73,7 +73,7 @@ class PostController extends Controller
     {
         return View('Post.show', [
             'post'=>Post::find($id),
-            'comments'=>Comment::where('post_id', $id)->get(),
+            'comments'=>Comment::where('post_id', $id)->where('level', '<', 5)->get(),
         ]);
     }
 
