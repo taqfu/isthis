@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect(route('mob.index'));
+    return redirect(route('m.index'));
 });
 
 Auth::routes();
@@ -20,5 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::resource('comment', 'CommentController');
 Route::resource('judgement', 'JudgementController');
-Route::resource('mob', 'MobController');
+Route::resource('m', 'MobController');
 Route::resource('post', 'PostController');
+Route::resource('user', 'UserController');

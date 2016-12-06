@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\mob;
-use App\Post;
+use App\User;
 
-use Auth;
-
-class MobController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +14,7 @@ class MobController extends Controller
      */
     public function index()
     {
-        return View("Mob.index",[
-            'mobs'=>Mob::get(),
-        ]);
+        //
     }
 
     /**
@@ -40,17 +35,7 @@ class MobController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            "mobName"=>"required|string|max:32|unique:mobs,name|regex:/^[a-zA-Z0-9]+$/"
-        ]);
-        if (Auth::guest()){
-            return back()->withErrors("You need to be logged in to create a mob.");
-        }
-        $mob = new Mob;
-        $mob->name = $request->mobName;
-        $mob->creator = Auth::user()->id;
-        $mob->save();
-        return back();
+        //
     }
 
     /**
@@ -59,18 +44,18 @@ class MobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($name)
+    public function show($username)
     {
-        $mobs = Mob::where('name', $name)->get();
-        if (count($mobs)>1){
-            trigger_error("There are multiple mobs with the name : $name");
+        $users = User::where('username', $username)->get();
+        if (count($users)>1){
+            trigger_error("Two different users with the username: $username");
         }
-        $id = $mobs->first()->id;
-
-        return View('Mob.show', [
-            'posts'=>Post::where('mob_id', $id)->get(),
-            'mob_id'=>$id,
+        $user = $users->first();
+       
+        return View('User.show', [
+            'user'=>$user,
         ]);
+
     }
 
     /**

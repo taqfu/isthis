@@ -10,7 +10,7 @@
     @endforeach
     @forelse ($mobs as $mob)
         <div>
-            <a href="{{route('mob.show', ['id'=>$mob->id])}}">{{$mob->name}}</a>
+            <a href="{{route('m.show', ['name'=>$mob->name])}}">{{$mob->name}}</a>
         </div>
     @empty
         <div>

@@ -22,13 +22,13 @@
 </div>
 <div class='col-xs-2'></div>
 @endif
-<div>
+<div class='row'>
     <h4 class='col-md-6'>
         By: 
         @if ($post->user_id == 0)
             Anonymous 
         @else
-            <a href="route('user.show', ['id'=>$post->user_id])}}">{{$post->user->username}}</a>
+            <a href="{{route('user.show', ['username'=>$post->user->username])}}">{{$post->user->username}}</a>
         @endif
     </h4>
     <h4 class='col-md-6 text-right'>
@@ -44,22 +44,24 @@
         @endif 
     </h4>
 </div>
+<div class='row'>
+
+    <input type='button' value='Comment'
+      id='show-create-comment0' class='show-button btn btn-link'/>
 
     @include ('Comment.create', ['reply_to'=>0])
+</div>
 <div>
 @foreach ($comments as $comment)
     <div class='row'>
-        @if ($comment->level>0)
-            <div class='col-md-{{$comment->level}}'></div>
-        @endif
-        <div class='col-md-8'>
             <div class='panel panel-default '>
                 <div class='panel-heading'>
                     @if (Auth::user() && Comment::does_user_own_this($comment->id))
                         <input type='button' class='btn btn-danger' value='X'/>
                     @endif
                     {{$comment->created_at}} - 
-                    @if (Auth::guest())
+                    -
+                    @if ($comment->user_id==0)
                         Anonymous
                     @else
                         {{$comment->user->username}}
@@ -68,17 +70,19 @@
                     {{$comment->text}}
                 </div>
                 <div class'panel-footer'>
+                <!--
                     @if($comment->level<4)
                         <input type='button' value='Reply'
                           id='show-create-comment{{$comment->id}}' class='show-button btn btn-link'/>
                     @endif
-                    
+                 -->   
                 </div>
             </div>
+            <!--
             @if($comment->level<4)
                 @include ('Comment.create', ['reply_to'=>$comment->id])
             @endif
-        </div>
+            -->
     </div>
     @endforeach
 </div>
