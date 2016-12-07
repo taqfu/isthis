@@ -61,15 +61,10 @@ class MobController extends Controller
      */
     public function show($name)
     {
-        $mobs = Mob::where('name', $name)->get();
-        if (count($mobs)>1){
-            trigger_error("There are multiple mobs with the name : $name");
-        }
-        $id = $mobs->first()->id;
-
+        $mob = Mob::fetch_mob_by_name($name);
         return View('Mob.show', [
-            'posts'=>Post::where('mob_id', $id)->get(),
-            'mob_id'=>$id,
+            'posts'=>Post::where('mob_id', $mob->id)->get(),
+            'mob_id'=>$mob->id,
         ]);
     }
 

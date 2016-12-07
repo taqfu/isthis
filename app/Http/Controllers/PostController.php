@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Comment;
 use \App\Post;
 use Auth;
+use DB;
 
 class PostController extends Controller
 {
@@ -42,11 +43,23 @@ class PostController extends Controller
             "type"=>"required|boolean",
             "url"=>"url",
             "text"=>"string",
+            "mobID"=>"required|integer|min:1",
         ]);
         if ((trim($request->url)=="" && trim($request->text)=="")
             || ($request->type && trim($request->text)=="")
             || (!$request->type && trim($request->url)=="")){
             return back()->withErrors('URL or text must be filled out before submititng.');
+        }
+        $title_url = preg_replace("/\s+/", "-", 
+          trim(strtolower(preg_replace("/\p{P}/", " ", $request->title))));
+        if (count($title_url)>249){
+            $title_url = substr($title_url, 0, 250); 
+        }
+        $num_of_records = 
+          count(DB::select("select * from posts where mob_id=? and substring(title_url, 1, length(?))=?", 
+          [$request->mobID, $title_url, $title_url]));
+        if ($num_of_records!=0){
+            $title_url = $title_url . "-".++$num_of_records;
         }
         $post = new Post;
         if (Auth::user()){
@@ -54,6 +67,8 @@ class PostController extends Controller
         }
         $post->mob_id = $request->mobID;
         $post->title = $request->title;
+        $post->title_url = $title_url;
+        
         if ($request->type){
             $post->text = $request->text;
         } else {
@@ -69,12 +84,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($mob_name, $title_url)
     {
+        var_dump($mob_name, $title_url);       
+/*
         return View('Post.show', [
             'post'=>Post::find($id),
             'comments'=>Comment::where('post_id', $id)->where('level', '<', 5)->get(),
         ]);
+*/
     }
 
 
