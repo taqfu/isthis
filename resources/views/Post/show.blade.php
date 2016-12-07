@@ -1,5 +1,4 @@
 <?php
-    use App\Comment;
     use App\Judgement;
     $judgement = Judgement::fetch_current($post->id);
 ?>
@@ -30,6 +29,9 @@
         @else
             <a href="{{route('user.show', ['username'=>$post->user->username])}}">{{$post->user->username}}</a>
         @endif
+        @if($post->url==null)
+            <input type='button' value='Edit' class='btn btn-link show-button' id='show-edit-post'/>
+        @endif
     </h4>
     <h4 class='col-md-6 text-right'>
         @if (Auth::user())
@@ -45,6 +47,9 @@
     </h4>
 </div>
 <div class='row'>
+    @if($post->url==null)
+        @include ('Post.edit')
+    @endif
 
     <input type='button' value='Comment'
       id='show-create-comment0' class='show-button btn btn-link'/>
@@ -53,37 +58,7 @@
 </div>
 <div>
 @foreach ($comments as $comment)
-    <div class='row'>
-            <div class='panel panel-default '>
-                <div class='panel-heading'>
-                    @if (Auth::user() && Comment::does_user_own_this($comment->id))
-                        <input type='button' class='btn btn-danger' value='X'/>
-                    @endif
-                    {{$comment->created_at}} - 
-                    -
-                    @if ($comment->user_id==0)
-                        Anonymous
-                    @else
-                        {{$comment->user->username}}
-                    @endif 
-                </div><div class='panel-body'>
-                    {{$comment->text}}
-                </div>
-                <div class'panel-footer'>
-                <!--
-                    @if($comment->level<4)
-                        <input type='button' value='Reply'
-                          id='show-create-comment{{$comment->id}}' class='show-button btn btn-link'/>
-                    @endif
-                 -->   
-                </div>
-            </div>
-            <!--
-            @if($comment->level<4)
-                @include ('Comment.create', ['reply_to'=>$comment->id])
-            @endif
-            -->
-    </div>
-    @endforeach
+    @include('Comment.show')
+@endforeach
 </div>
 @endsection

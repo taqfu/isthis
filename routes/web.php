@@ -26,6 +26,8 @@ Route::resource('judgement', 'JudgementController');
 Route::resource('m', 'MobController');
 Route::resource('post', 'PostController');
 Route::resource('user', 'UserController');
+Route::get('/u/{username}/posts', ['as'=>'user.posts', 'uses'=>'UserController@showPosts']);
+Route::get('/u/{username}/comments', ['as'=>'user.comments', 'uses'=>'UserController@showComments']);
 
 Route::get('/m/{mob_name}/{title_url}', ['as'=>'post.show',  function($mob_name, $title_url){
     $mob = Mob::fetch_mob_by_name($mob_name);   

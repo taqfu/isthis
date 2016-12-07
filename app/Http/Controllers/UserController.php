@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Comment;
+use App\Post;
 use App\User;
 
 class UserController extends Controller
@@ -46,16 +48,21 @@ class UserController extends Controller
      */
     public function show($username)
     {
-        $users = User::where('username', $username)->get();
-        if (count($users)>1){
-            trigger_error("Two different users with the username: $username");
-        }
-        $user = $users->first();
-       
-        return View('User.show', [
+        return redirect (route('user.posts', ['username'=>$username]));
+    }
+    public function showPosts($username){
+        $user=User::fetch_user_by_username($username);
+        return View('User.posts', [
             'user'=>$user,
+            'posts'=>Post::where('user_id', $user->id)->get(),
         ]);
-
+    }
+    public function showComments($username){
+        $user=User::fetch_user_by_username($username);
+        return View('User.comments', [
+            'user'=>$user,
+            'comments'=>Comment::where('user_id', $user->id)->get(),
+        ]);
     }
 
     /**

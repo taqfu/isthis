@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public static function fetch_user_by_username($username){
+        $users = User::where('username', $username)->get();
+        if (count($users)>1){
+            trigger_error("Two different users with the username: $username");
+        }
+        return $users->first();
+
+    }
 }
