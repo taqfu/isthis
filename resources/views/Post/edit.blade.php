@@ -1,11 +1,9 @@
-<form method="POST" action="{{route('post.update', ['id'=>$post->id])}}" class='row hidden' id='edit-post'>
+<form method="POST" action="{{route('post.update', ['id'=>$post->id])}}" class='row hidden' id='post-secondary'>
     {{csrf_field()}}
     {{method_field('PUT')}}
-    <div class='col-md-4'></div>
-    <div class='form-group col-md-4'>
-        <textarea class='form-control' rows='4'>{{$post->text}}</textarea>
+    <div class='form-group'>
+        <textarea name='newPostText' class='form-control' rows='4'>{{$post->text}}</textarea>
         <input type='submit' class='btn btn-default pull-right'/>
-        <input type='button' class='btn btn-default pull-right cancel-button' value='Cancel' id='cancel-edit-post'/>
+        <input type='button' class='btn btn-default pull-right replace-secondary-button' value='Cancel' id='replace-secondary-post'/>
     </div>
-    <div class='col-md-4'></div>
 </form>

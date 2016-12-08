@@ -116,7 +116,13 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'newPostText'=>"required|string",
+        ]);
+        $post = Post::find($id); 
+        $post->text = $request->newPostText;
+        $post->save();
+        return back();
     }
 
     /**

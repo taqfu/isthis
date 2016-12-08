@@ -16,9 +16,14 @@
 @if ($post->url == null)
 <div class='col-xs-2'>
 </div>
-<div class='panel panel-default col-md-8'>
-    {{$post->text}}
+@if($post->url==null)
+<div class='col-md-8'>
+    <div id='post-primary'  class='panel panel-default'>
+        {{$post->text}}
+    </div>
+    @include ('Post.edit')
 </div>
+@endif
 <div class='col-xs-2'></div>
 @endif
 <div class='row'>
@@ -30,7 +35,7 @@
             <a href="{{route('user.show', ['username'=>$post->user->username])}}">{{$post->user->username}}</a>
         @endif
         @if($post->url==null)
-            <input type='button' value='Edit' class='btn btn-link show-button' id='show-edit-post'/>
+            <input type='button' value='Edit' class='btn btn-link replace-primary-button' id='replace-primary-post'/>
         @endif
     </h4>
     <h4 class='col-md-6 text-right'>
@@ -47,9 +52,6 @@
     </h4>
 </div>
 <div class='row'>
-    @if($post->url==null)
-        @include ('Post.edit')
-    @endif
 
     <input type='button' value='Comment'
       id='show-create-comment0' class='show-button btn btn-link'/>
