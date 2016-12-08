@@ -41,6 +41,9 @@ class JudgementController extends Controller
             "judgement"=>"required|boolean",
             "postID"=>"integer|min:1",
         ]);
+        if (Judgement::have_they_already_judged($request->postID)){
+            return back()->withErrors("You've already judged this post.");
+        }
         $judgement = new Judgement;
         $judgement->for = $request->judgement;
         $judgement->post_id = $request->postID;
