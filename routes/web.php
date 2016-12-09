@@ -26,6 +26,7 @@ Route::resource('judgement', 'JudgementController');
 Route::resource('m', 'MobController');
 Route::resource('post', 'PostController');
 Route::resource('user', 'UserController');
+Route::resource('vote', 'VoteController');
 Route::get('/u/{username}/posts', ['as'=>'user.posts', 'uses'=>'UserController@showPosts']);
 Route::get('/u/{username}/comments', ['as'=>'user.comments', 'uses'=>'UserController@showComments']);
 

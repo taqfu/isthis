@@ -16,6 +16,12 @@ class Comment extends Model
     }
     public static function replies ($id){
         return Comment::where('reply_to', $id)->get();
-        
+    }
+    public static function update_score($id){
+        $ayes = count(Vote::where('up', true)->where('table_ref', 'comment')->where('table_id', $id)->get());
+        $nays = count(Vote::where('up', false)->where('table_ref', 'comment')->where('table_id', $id)->get());
+        $comment = Comment::find($id);
+        $comment->score = $ayes-$nays;
+        $comment->save();
     }
 }

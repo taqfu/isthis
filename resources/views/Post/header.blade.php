@@ -15,7 +15,13 @@
 @if ($post->url == null)
 <div class='container'>
     <div id='post-primary'  class='panel panel-default padding-1'>
-        {{$post->text}}
+        <div class='row'>
+        <div class='col-xs-1 text-center'>
+        @include ('Vote.create', ['table_ref'=>'post', 'table_id'=>$post->id])
+        </div><div class='col-xs-11'>
+            {{$post->text}}
+        </div>
+        </div>
     </div>
     @include ('Post.edit')
 </div>
