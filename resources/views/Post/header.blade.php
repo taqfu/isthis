@@ -45,8 +45,10 @@
         @endif 
     </h4>
 </div>
-    @if ($create_comments_enabled)
-<input type='button' value='Comment'
-  id='show-create-comment0' class='show-button btn btn-link'/>
-@include ('Comment.create', ['reply_to'=>0])
-    @endif
+@if ($create_comments_enabled)
+    <div class='container'>
+        <input type='button' value='Comment'
+          id='show-create-comment0' class='show-button btn btn-link'/>
+        @include ('Comment.create', ['reply_to'=>0])
+    </div>
+@endif
