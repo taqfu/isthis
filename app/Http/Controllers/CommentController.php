@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Comment;
+use App\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -15,7 +16,6 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -62,7 +62,11 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+        $comment = Comment::find($id);
+        return View('Comment.index', [
+            'comment'=>$comment,
+            'post'=>Post::find($comment->post_id),
+        ]);     
     }
 
     /**

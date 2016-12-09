@@ -14,4 +14,8 @@ class Comment extends Model
         $comment = Comment::find($id);
         return Auth::user()->id==$comment->user_id;
     }
+    public static function replies ($id){
+        return Comment::where('reply_to', $id)->get();
+        
+    }
 }

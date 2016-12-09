@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment;
+use App\mob;
 use \App\Post;
 use Auth;
 use DB;
@@ -86,13 +87,16 @@ class PostController extends Controller
      */
     public function show($mob_name, $title_url)
     {
-        var_dump($mob_name, $title_url);       
-/*
+        $mob = Mob::fetch_mob_by_name($mob_name);   
+        $posts = Post::where('mob_id', $mob->id)->where('title_url', $title_url)->get();
+        if (count ($posts)>1){
+           trigger_error("There is more than one post with the $mob_name and $title_url"); 
+        } 
+        $post = $posts->first();
         return View('Post.show', [
-            'post'=>Post::find($id),
-            'comments'=>Comment::where('post_id', $id)->where('level', '<', 5)->get(),
+            'post'=>$post,
+            'comments'=>Comment::where('post_id', $post->id)->where('level', 0)->get(),
         ]);
-*/
     }
 
 

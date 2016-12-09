@@ -1,31 +1,36 @@
 <?php
     use App\Comment;
 ?>
-<div class='row'>
-        <div class='panel panel-default '>
+        <div class='panel panel-default'>
             <div class='panel-heading'>
-                @if (Auth::user() && Comment::does_user_own_this($comment->id))
-                    <input type='button' class='btn btn-danger' value='X'/>
-                @endif
                 {{$comment->created_at}}
                 -
-                @if ($comment->user_id==0)
-                    Anonymous
-                @else
-                    <a href="{{route('user.show', ['username'=>$comment->user->username])}}">
-                        {{$comment->user->username}}
-                    </a>
-                @endif 
+                @include ('Comment.user-link')
+                @if (Auth::user() && Comment::does_user_own_this($comment->id))
+                    <input type='button' class='btn btn-danger pull-right' value='X'/>
+                @endif
             </div><div class='panel-body'>
                 {{$comment->text}}
-            </div>
-            <div class'panel-footer'>
-            <!--
-                @if($comment->level<4)
-                    <input type='button' value='Reply'
-                      id='show-create-comment{{$comment->id}}' class='show-button btn btn-link'/>
-                @endif
-             -->   
+            </div>            
+            <div class='panel-footer'>
+            @if(route('comment.show', ['id'=>$comment->id])!=\Request::url())
+                <a href="{{route('comment.show', ['id'=>$comment->id])}}">Permalink</a>
+            @endif
+                <input type='button' value='Reply'
+                  id='show-create-comment{{$comment->id}}' class='show-button btn btn-link'/> 
             </div>
         </div>
-</div>
+        <div class='container'>
+                @include ('Comment.create', ['reply_to'=>$comment->id])
+        </div>
+        <div>
+        @if ($comment->level<$end_at)
+            @foreach(Comment::replies($comment->id) as $reply)
+                    <div class='margin-left-1 padding-left-1'>
+                        @include ('Comment.show', ['comment'=>$reply, 'end_at'=>$end_at])
+                    </div>
+            @endforeach
+        @elseif ($comment->level>=$end_at && count(Comment::replies($comment->id))>0)
+            <a href="{{route('comment.show', ['id'=>$comment->id])}}">More...</a>
+        @endif
+        </div>
