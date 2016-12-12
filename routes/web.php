@@ -14,9 +14,8 @@ use App\Comment;
 use App\mob;
 use App\Post;
 
-Route::get('/', function () {
-    return redirect(route('m.index'));
-});
+Route::get('/', 'HomeController@index');
+        
 
 Auth::routes();
 
