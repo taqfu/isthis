@@ -57,10 +57,7 @@ class VoteController extends Controller
             Post::update_score($request->tableID);
         } else if ($request->tableRef=="comment"){
             Comment::update_score($request->tableID);
-
         }
-        
-
         return back();  
     }
 
@@ -84,7 +81,6 @@ class VoteController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -96,7 +92,18 @@ class VoteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'vote'=>'required|boolean',
+        ]);
+        $vote = Vote::find($id);
+        $vote->up = $request->vote;
+        $vote->save();
+        if ($vote->table_ref=="post"){
+            Post::update_score($vote->table_id);
+        } else if ($vote->table_ref=="comment"){
+            Comment::update_score($vote->table_id);
+        }
+        return back();
     }
 
     /**
