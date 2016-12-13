@@ -1,4 +1,3 @@
-<input type='button' class='btn btn-default show-button' id='show-create-post' value='Post'/>
 <div id='create-post' class='row hidden'>
     <div class='col-md-4'></div>
     <form method="POST" action="{{route('post.store')}}" class='col-md-4'>
@@ -6,7 +5,7 @@
         @foreach ($errors->all() as $error)
             <div class='text-danger'>{{$error}}</div>
         @endforeach
-        <input type='hidden' name='mobID' value='{{$mob_id}}' />
+        <input type='hidden' name='mobID' value='{{$mob->id}}' />
         <div class='form-group'>
             <label>Title - (<span id='new-post-title-num-of-chars'>150</span>) characters remaining</label>
             <input id='new-post-title' type='text' name='title' class='form-control'

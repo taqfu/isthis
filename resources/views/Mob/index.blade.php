@@ -1,4 +1,6 @@
 @extends ('layouts.app')
+@section ('mob')
+@endsection
 @section ('content')
     @if (Auth::user())
         @include ('Mob.create')

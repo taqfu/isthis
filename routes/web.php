@@ -14,7 +14,12 @@ use App\Comment;
 use App\mob;
 use App\Post;
 
-Route::get('/', 'HomeController@index');
+Route::get('/', function (){
+        return view('home', [
+            'posts'=>Post::get(),
+        ]);
+
+});
         
 
 Auth::routes();

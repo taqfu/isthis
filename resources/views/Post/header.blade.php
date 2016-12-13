@@ -28,12 +28,8 @@
 @endif
 <div class='container'>
     <h4 class='col-md-6'>
-        By: 
-        @if ($post->user_id == 0)
-            Anonymous 
-        @else
-            <a href="{{route('user.show', ['username'=>$post->user->username])}}">{{$post->user->username}}</a>
-        @endif
+        By:
+        @include ('Post.user-link')
         @if($post->url==null)
             <input type='button' value='Edit' class='btn btn-link replace-primary-button' id='replace-primary-post'/>
         @endif

@@ -64,7 +64,7 @@ class MobController extends Controller
         $mob = Mob::fetch_mob_by_name($name);
         return View('Mob.show', [
             'posts'=>Post::where('mob_id', $mob->id)->get(),
-            'mob_id'=>$mob->id,
+            'mob'=>$mob,
         ]);
     }
 
