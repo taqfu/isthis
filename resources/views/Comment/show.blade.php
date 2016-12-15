@@ -7,22 +7,29 @@
             {{$comment->created_at}}
             -
             @include ('Comment.user-link')
-            @if (Auth::user() && Comment::does_user_own_this($comment->id))
+            @if (Auth::user() && Auth::user()->id==$comment->user_id)
                 <input type='button' class='btn btn-danger pull-right' value='X'/>
             @endif
         </div><div class='panel-body'>
             <div class='col-xs-1'>
                 @include ('Vote.create', ['table_ref'=>'comment', 'table_id'=>$comment->id])
             </div><div class='col-xs-11 vertical-center'>
-                {{$comment->text}}
+                <div id='edit-comment{{$comment->id}}-primary'>
+                    {{$comment->text}}
+                </div>
+                @include ('Comment.edit')
             </div>
         </div>            
         <div class='panel-footer'>
-        @if(route('comment.show', ['id'=>$comment->id])!=\Request::url())
-            <a href="{{route('comment.show', ['id'=>$comment->id])}}">Permalink</a>
-        @endif
+            @if(route('comment.show', ['id'=>$comment->id])!=\Request::url())
+                <a href="{{route('comment.show', ['id'=>$comment->id])}}">Permalink</a>
+            @endif
             <input type='button' value='Reply'
               id='show-create-comment{{$comment->id}}' class='show-button btn btn-link'/> 
+            @if (Auth::user() && Auth::user()->id==$comment->user_id)
+                <input type='button' class='btn btn-link replace-primary-button' id='replace-primary-edit-comment{{$comment->id}}' value='Edit'/>
+            @endif
+            
         </div>
     </div>
     <div class='container'>

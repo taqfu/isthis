@@ -89,7 +89,13 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'newText'=>'required|string|max:20000', 
+        ]);
+        $comment = Comment::find($id);
+        $comment->text = $request->newText;
+        $comment->save();
+        return back();
     }
 
     /**
