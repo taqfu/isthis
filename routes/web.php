@@ -13,10 +13,25 @@
 use App\Comment;
 use App\mob;
 use App\Post;
+use App\Subscription;
 
 Route::get('/', function (){
+        $posts = Post::get();
+        $subscribed_mobs=[];
+        if (Auth::user()){
+            $subscriptions = Subscription::where('user_id', Auth::user()->id)->get();
+            if (count($subscriptions)>0){
+                foreach ($subscriptions as $follow){
+                    $subscribed_mobs[]=$follow->mob_id;
+                }
+                $posts = Post::whereIn('mob_id', $subscribed_mobs)
+                  ->orderBy('created_at', 'desc')->get();
+            }
+           
+        } 
         return view('home', [
-            'posts'=>Post::get(),
+            'posts'=>$posts,
+            'subscriptions'=>$subscriptions,
         ]);
 
 });
@@ -29,7 +44,9 @@ Route::resource('comment', 'CommentController');
 Route::resource('judgement', 'JudgementController');
 Route::resource('m', 'MobController');
 Route::resource('post', 'PostController');
+Route::resource('subscription', 'SubscriptionController');
 Route::resource('user', 'UserController');
+
 Route::resource('vote', 'VoteController');
 Route::get('/u/{username}/posts', ['as'=>'user.posts', 'uses'=>'UserController@showPosts']);
 Route::get('/u/{username}/comments', ['as'=>'user.comments', 'uses'=>'UserController@showComments']);
