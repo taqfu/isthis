@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    public static function fetch_num_of_comments($id){
+        return count(Comment::where('post_id', $id)->get());
+    }
     public function user(){
         return $this->belongsTo('App\User');
 
