@@ -51,5 +51,6 @@ Route::resource('user', 'UserController');
 Route::resource('vote', 'VoteController');
 Route::get('/u/{username}/posts', ['as'=>'user.posts', 'uses'=>'UserController@showPosts']);
 Route::get('/u/{username}/comments', ['as'=>'user.comments', 'uses'=>'UserController@showComments']);
+Route::get('/u/{username}/judgements', ['as'=>'user.judgements', 'uses'=>'UserController@showJudgements']);
 
 Route::get('/m/{mob_name}/{title_url}', ['as'=>'post.show', 'uses'=>'PostController@show']);

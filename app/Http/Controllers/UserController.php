@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment;
+use App\Judgement;
 use App\Post;
 use App\User;
 
@@ -50,13 +51,6 @@ class UserController extends Controller
     {
         return redirect (route('user.posts', ['username'=>$username]));
     }
-    public function showPosts($username){
-        $user=User::fetch_user_by_username($username);
-        return View('User.posts', [
-            'user'=>$user,
-            'posts'=>Post::where('user_id', $user->id)->get(),
-        ]);
-    }
     public function showComments($username){
         $user=User::fetch_user_by_username($username);
         return View('User.comments', [
@@ -64,7 +58,21 @@ class UserController extends Controller
             'comments'=>Comment::where('user_id', $user->id)->get(),
         ]);
     }
+    public function showJudgements($username){
+        $user=User::fetch_user_by_username($username);
+        return View('User.judgements', [
+            'user'=>$user,
+            'judgements'=>Judgement::where('user_id', $user->id)->get(),
+        ]);
+    }
 
+    public function showPosts($username){
+        $user=User::fetch_user_by_username($username);
+        return View('User.posts', [
+            'user'=>$user,
+            'posts'=>Post::where('user_id', $user->id)->get(),
+        ]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

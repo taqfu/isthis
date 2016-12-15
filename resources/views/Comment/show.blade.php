@@ -7,9 +7,24 @@
             {{$comment->created_at}}
             -
             @include ('Comment.user-link')
+            @if (!$with_replies)
+                -
+                @if ($comment->level==0)
+                    From 
+                @else 
+                    Reply To 
+                    <a href="{{route('comment.show',['id'=>$comment->id])}}">
+                        Comment #{{$comment->id}}
+                    </a>
+                     From
+                @endif
+                    <a href="{{route('post.show', ['title_url'=>$comment->post->title_url, 'mob_name'=>$comment->post->mob->name])}}">{{$comment->post->title}}</a>
+                 <a href="">[ {{$comment->post->mob->name}}? ]</a>
+            @endif
             @if (Auth::user() && Auth::user()->id==$comment->user_id)
                 <input type='button' class='btn btn-danger pull-right' value='X'/>
             @endif
+            
         </div><div class='panel-body'>
             <div class='col-xs-1'>
                 @include ('Vote.create', ['table_ref'=>'comment', 'table_id'=>$comment->id])
@@ -32,6 +47,7 @@
             
         </div>
     </div>
+@if ($with_replies)
     <div class='container'>
             @include ('Comment.create', ['reply_to'=>$comment->id])
     </div>
@@ -46,4 +62,5 @@
             <a href="{{route('comment.show', ['id'=>$comment->id])}}">More...</a>
         @endif
     </div>
+@endif
 </div>

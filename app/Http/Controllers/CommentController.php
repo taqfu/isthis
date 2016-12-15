@@ -66,6 +66,7 @@ class CommentController extends Controller
         return View('Comment.index', [
             'comment'=>$comment,
             'post'=>Post::find($comment->post_id),
+            'with_replies'=>true,
         ]);     
     }
 

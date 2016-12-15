@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Judgement extends Model
 {
     public static function fetch_current($post_id){
-        $ayes = count(Judgement :: where("post_id", $post_id)->where('for', true)->get());
-        $nays = count(Judgement :: where("post_id", $post_id)->where('for', false)->get());
+        $ayes = count(Judgement :: where("post_id", $post_id)->where('in_favor', true)->get());
+        $nays = count(Judgement :: where("post_id", $post_id)->where('in_favor', false)->get());
         $total = $nays + $ayes;
         if ($total==0){
             return NULL;
@@ -27,6 +27,7 @@ class Judgement extends Model
         }
         return ['swing'=>$swing, 'degree'=>$degree/$total*100, 'total'=>$total];
     }
+
     public static function have_they_already_judged($post_id){
         $num_of_judgements = count(Judgement::where('post_id', $post_id)->where('user_id', Auth::user()->id)->get());
         if ($num_of_judgements>1){
@@ -34,6 +35,9 @@ class Judgement extends Model
 
         }
         return $num_of_judgements>0;
+    }
 
+    public function post (){
+        return $this->belongsTo('\App\Post');
     }
 }

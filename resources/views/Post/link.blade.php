@@ -1,4 +1,11 @@
-<div class='container'>
+<?php
+    if(isset($judgement)){
+        $bg_class = $judgement->in_favor ? "bg-success" : "bg-danger";
+    } else {
+        $bg_class = "";
+    }
+?>
+<div class='container {{$bg_class}}'>
     <div class='col-xs-1 text-center'>
         {{$post->score }}
     </div><div class='col-xs-11'>
