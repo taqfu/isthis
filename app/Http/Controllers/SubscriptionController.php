@@ -43,6 +43,7 @@ class SubscriptionController extends Controller
         $subscription->user_id = Auth::user()->id;
         $subscription->mob_id = $request->mobID;
         $subscription->save();
+        return back();
     }
 
     /**
@@ -87,6 +88,7 @@ class SubscriptionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Subscription::find($id)->delete();
+        return back();
     }
 }

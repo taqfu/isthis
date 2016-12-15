@@ -16,6 +16,7 @@ use App\Post;
 use App\Subscription;
 
 Route::get('/', function (){
+        $subscriptions = null;
         $posts = Post::get();
         $subscribed_mobs=[];
         if (Auth::user()){
