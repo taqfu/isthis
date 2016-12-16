@@ -1,7 +1,7 @@
+
 <?php
     $vote = \App\Vote::fetch_vote($table_ref, $table_id);
 ?>
-
 @if (Auth::user())
     @if ($vote==null)
     <form method="POST" action="{{route('vote.store')}}" class='text-center'>

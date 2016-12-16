@@ -68,6 +68,7 @@ class PostController extends Controller
         }
         $post->mob_id = $request->mobID;
         $post->title = $request->title;
+        $post->score=1;
         $post->title_url = $title_url;
         
         if ($request->type){
