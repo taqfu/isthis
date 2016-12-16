@@ -13,6 +13,15 @@
         {{$mob->name}}?
     </a></strong>
     <input type='button' class='show-button navbar-btn btn-default' id='show-create-post' value='Post' />
+    &nbsp;
+    @if (count($moderators)==1)
+        Moderator:
+    @else 
+        Moderators:
+    @endif
+    @foreach($moderators as $moderator)
+        <a href="{{route('user.show', ['username'=>$moderator->user->username])}}">{{$moderator->user->username}}</a>
+    @endforeach
 @endsection
 @section('content')
     @include ('Post.create')

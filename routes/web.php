@@ -41,6 +41,7 @@ Route::get('/', function (){
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::resource('ban', 'BanController');
 Route::resource('comment', 'CommentController');
 Route::resource('judgement', 'JudgementController');
 Route::resource('m', 'MobController');

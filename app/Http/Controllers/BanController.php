@@ -3,13 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\mob;
-use App\Moderator;
-use App\Post;
 
-use Auth;
-
-class MobController extends Controller
+class BanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +13,7 @@ class MobController extends Controller
      */
     public function index()
     {
-        return View("Mob.index",[
-            'mobs'=>Mob::get(),
-        ]);
+        //
     }
 
     /**
@@ -41,17 +34,7 @@ class MobController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            "mobName"=>"required|string|max:32|unique:mobs,name|regex:/^[a-zA-Z0-9]+$/"
-        ]);
-        if (Auth::guest()){
-            return back()->withErrors("You need to be logged in to create a mob.");
-        }
-        $mob = new Mob;
-        $mob->name = $request->mobName;
-        $mob->creator = Auth::user()->id;
-        $mob->save();
-        return back();
+        //
     }
 
     /**
@@ -60,14 +43,9 @@ class MobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($name)
+    public function show($id)
     {
-        $mob = Mob::fetch_mob_by_name($name);
-        return View('Mob.show', [
-            'posts'=>Post::where('mob_id', $mob->id)->get(),
-            'mob'=>$mob,
-            'moderators'=>Moderator::where('mob_id', $mob->id)->get(),
-        ]);
+        //
     }
 
     /**

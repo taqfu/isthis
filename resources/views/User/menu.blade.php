@@ -3,7 +3,7 @@
     $route_name = substr($route_name, 5, strlen($route_name)-5);
 ?>
 <h1 class='text-center'>{{$user->username}}</h1>
-    
+@include ('Ban.create')
 <nav class="navbar navbar-default">
     <ul class='nav navbar-nav lead'>
         <li @if ($route_name=="posts")class="active"@endif>
