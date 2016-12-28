@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Ban;
 use App\mob;
 use App\Moderator;
 use App\Post;
@@ -19,7 +20,7 @@ class MobController extends Controller
     public function index()
     {
         return View("Mob.index",[
-            'mobs'=>Mob::get(),
+            'mobs'=>Mob::orderBy('name','asc')->get(),
         ]);
     }
 
@@ -51,6 +52,10 @@ class MobController extends Controller
         $mob->name = $request->mobName;
         $mob->creator = Auth::user()->id;
         $mob->save();
+        $moderator = new Moderator;
+        $moderator->user_id = Auth::user()->id;
+        $moderator->mob_id = $mob->id;
+        $moderator->save();
         return back();
     }
 
@@ -63,7 +68,8 @@ class MobController extends Controller
     public function show($name)
     {
         $mob = Mob::fetch_mob_by_name($name);
-        return View('Mob.show', [
+        $view_name = Ban::are_they_banned($mob->id, Auth::user()->id) ? "Mob.banned" : "Mob.show";
+        return View($view_name, [
             'posts'=>Post::where('mob_id', $mob->id)->get(),
             'mob'=>$mob,
             'moderators'=>Moderator::where('mob_id', $mob->id)->get(),
@@ -101,6 +107,5 @@ class MobController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }

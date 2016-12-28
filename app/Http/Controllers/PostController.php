@@ -46,6 +46,10 @@ class PostController extends Controller
             "text"=>"string",
             "mobID"=>"required|integer|min:1",
         ]);
+        if (Ban::are_they_banned($request->mobID, Auth::user()->id){
+            Ban::response($request->mobID);
+        }
+
         if ((trim($request->url)=="" && trim($request->text)=="")
             || ($request->type && trim($request->text)=="")
             || (!$request->type && trim($request->url)=="")){

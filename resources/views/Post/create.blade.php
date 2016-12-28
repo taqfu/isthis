@@ -33,7 +33,7 @@
         @endif
         ">
             <label>Text:</label>
-            <textarea name='text' class='form-control'>{{old('text')}}</textarea>
+            <textarea name='text' rows='4' class='form-control'>{{old('text')}}</textarea>
         </div>
         <div id='post-secondary' class="form-group
         @if (old('type')||old('type')==null)

@@ -1,4 +1,5 @@
 <?php
+    
     $route_name = \Request::route()->getName();
     $route_name = substr($route_name, 5, strlen($route_name)-5);
 ?>

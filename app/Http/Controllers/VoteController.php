@@ -46,7 +46,7 @@ class VoteController extends Controller
         if ($request->tableRef!="post" && $request->tableRef!="comment"){
             trigger_error("tableRef request was not post or comment : $request->tableRef");
             return back()->withErrors("This is not a valid way to vote."); 
-        }
+        } 
         $vote = new Vote;
         $vote->table_ref = $request->tableRef;
         $vote->table_id = $request->tableID;

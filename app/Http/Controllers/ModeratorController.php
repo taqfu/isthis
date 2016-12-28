@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Moderator;
 use Auth;
 
-use App\Judgement;
-use Illuminate\Http\Request;
-
-class JudgementController extends Controller
+class ModeratorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,25 +36,7 @@ class JudgementController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            "judgement"=>"required|boolean",
-            "postID"=>"integer|min:1",
-        ]);
-        if (Judgement::have_they_already_judged($request->postID)){
-            return back()->withErrors("You've already judged this post.");
-        }
-        $post = Post::find($request->postID);
-        if (Ban::are_they_banned($post->mob->id, Auth::user()->id){
-            Ban::response($post->mob->id);
-        }
-        
-        $judgement = new Judgement;
-        $judgement->in_favor = $request->judgement;
-        $judgement->post_id = $request->postID;
-        $judgement->user_id = Auth::user()->id;
-        $judgement->save();
-        return back();
-        
+        //
     }
 
     /**
@@ -100,6 +81,12 @@ class JudgementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Auth::guest()){
+            return back()->withErrors("You must be logged in to do this.");
+        }  
+        if (Auth::user()->id != $id){
+            return back()->withErrors("You aren't able to do this.");
+        }
+        Moderator::remove($id);
     }
 }

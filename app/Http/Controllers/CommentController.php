@@ -41,6 +41,11 @@ class CommentController extends Controller
             "replyTo"=>"required|integer|min:0",
             "postID"=>"required|integer|min:0",
         ]);
+        $post = Post::find($request->postID);
+        if (Ban::are_they_banned($post->mob->id, Auth::user()->id){
+            Ban::response($post->mob->id);
+        }
+ 
         if ($request->replyTo>0){
             $reply = Comment::find($request->replyTo);
         }

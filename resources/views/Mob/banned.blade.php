@@ -1,19 +1,10 @@
 @extends('layouts.app')
 @section('mob')
-    @if (Auth::user())
-        <?php $subscription_id = \App\Subscription::fetch_subscription($mob->id); ?>
-        @if ($subscription_id==0)
-            @include ('Subscription.create')
-        @else
-            @include ('Subscription.destroy')
-        @endif
-        &nbsp;
-    @endif
     <strong><a href="{{route('m.show', ['name'=>$mob->name])}}" class='navbar-text'>
         {{$mob->name}}?
     </a></strong>
-    <input type='button' class='show-button navbar-btn btn-default' id='show-create-post' value='Post' />
     &nbsp;
+    <span class='navbar-text'>
     @if (count($moderators)==1)
         Moderator:
     @elseif (count($moderators)==0)
@@ -27,11 +18,8 @@
         @endif
         <a href="{{route('user.show', ['username'=>$moderator->user->username])}}">{{$moderator->user->username}}</a>
     @endforeach
+    </span>
 @endsection
 @section('content')
-    @include ('Post.create')
-    @foreach ($posts as $post)
-        @include ('Post.link', ['home'=>false])
-    @endforeach
-    
+   <h1 class='text-center'> You are banned.</h1> 
 @endsection
