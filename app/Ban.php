@@ -15,7 +15,7 @@ class Ban extends Model
     }
     public static function response($mob_id){
             trigger_error("User #" . Auth::user()->id . " is banned from Mob #" . $mob_id . " but was still attempting to post.");
-            return back->withErrors("You are banned from this Mob.");
+            return back()->withErrors("You are banned from this Mob.");
     
     }
 }

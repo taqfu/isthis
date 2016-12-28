@@ -1,14 +1,5 @@
 @extends('layouts.app')
 @section('mob')
-    @if (Auth::user())
-        <?php $subscription_id = \App\Subscription::fetch_subscription($mob->id); ?>
-        @if ($subscription_id==0)
-            @include ('Subscription.create')
-        @else
-            @include ('Subscription.destroy')
-        @endif
-        &nbsp;
-    @endif
     <strong><a href="{{route('m.show', ['name'=>$mob->name])}}" class='navbar-text'>
         {{$mob->name}}?
     </a></strong>
@@ -29,6 +20,15 @@
     @endforeach
 @endsection
 @section('content')
+    @if (Auth::user())
+        <?php $subscription_id = \App\Subscription::fetch_subscription($mob->id); ?>
+        @if ($subscription_id==0)
+            @include ('Subscription.create')
+        @else
+            @include ('Subscription.destroy')
+        @endif
+        &nbsp;
+    @endif
     @include ('Post.create')
     @foreach ($posts as $post)
         @include ('Post.link', ['home'=>false])
