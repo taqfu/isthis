@@ -49,6 +49,7 @@ class CommentController extends Controller
         $comment->reply_to = $request->replyTo;
         $comment->post_id = $request->postID;
         $comment->user_id = Auth::user() ? Auth::user()->id : 0; 
+        $comment->score = Auth::user() ? 1 : 0;
         $comment->level = isset($reply) ? $reply->level+1 : 0; 
         $comment->save();
         return back();

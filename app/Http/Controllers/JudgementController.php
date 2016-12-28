@@ -45,7 +45,7 @@ class JudgementController extends Controller
             return back()->withErrors("You've already judged this post.");
         }
         $judgement = new Judgement;
-        $judgement->for = $request->judgement;
+        $judgement->in_favor = $request->judgement;
         $judgement->post_id = $request->postID;
         $judgement->user_id = Auth::user()->id;
         $judgement->save();

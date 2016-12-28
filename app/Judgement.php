@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Judgement extends Model
 {
+    public static function fetch_judgement_from_user($post_id, $user_id){
+        $judgements = Judgement::where('post_id', $post_id)->where('user_id', $user_id)->get(); 
+        if (count($judgements)>1){
+            trigger_error("User #" . $user_id . " has more than one judgement for post #" . $post_id);
+        }
+        return $judgements->first();
+    }
     public static function fetch_current($post_id){
         $ayes = count(Judgement :: where("post_id", $post_id)->where('in_favor', true)->get());
         $nays = count(Judgement :: where("post_id", $post_id)->where('in_favor', false)->get());
