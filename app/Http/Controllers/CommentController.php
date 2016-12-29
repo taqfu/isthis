@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Ban;
 use App\Comment;
+use App\Moderator;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -42,7 +44,7 @@ class CommentController extends Controller
             "postID"=>"required|integer|min:0",
         ]);
         $post = Post::find($request->postID);
-        if (Ban::are_they_banned($post->mob->id, Auth::user()->id){
+        if (Ban::are_they_banned($post->mob->id, Auth::user()->id)){
             Ban::response($post->mob->id);
         }
  
@@ -114,5 +116,18 @@ class CommentController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function tag($id, $tag){
+        $comment = Comment :: find ($id);
+        if (Auth::guest()){
+            return back()->withErrors("You need to be logged in to do this.");
+        }
+        if (!Moderator::are_they_a_moderator($comment->post->mob_id)){
+            return back()->withErrors("You are not a moderator of this mob.");
+        }
+        $comment->tag = $tag;
+        $comment->tagger = Auth::user()->id;
+        $comment->save();
+        return back();
     }
 }

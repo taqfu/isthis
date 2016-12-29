@@ -68,7 +68,7 @@ class MobController extends Controller
     public function show($name)
     {
         $mob = Mob::fetch_mob_by_name($name);
-        $view_name = Ban::are_they_banned($mob->id, Auth::user()->id) ? "Mob.banned" : "Mob.show";
+        $view_name = (Auth::user() && Ban::are_they_banned($mob->id, Auth::user()->id)) ? "Mob.banned" : "Mob.show";
         return View($view_name, [
             'posts'=>Post::where('mob_id', $mob->id)->get(),
             'mob'=>$mob,

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Ban;
 use App\Comment;
 use App\mob;
+use App\Moderator;
 use \App\Post;
 use Auth;
 use DB;
@@ -144,4 +146,18 @@ class PostController extends Controller
     {
         //
     }
+    public function tag($id, $tag){
+        $post = Post :: find ($id);
+        if (Auth::guest()){
+            return back()->withErrors("You need to be logged in to do this.");
+        }
+        if (!Moderator::are_they_a_moderator($post->mob_id)){
+            return back()->withErrors("You are not a moderator of this mob.");
+        }
+        $post->tag = $tag;
+        $post->tagger = Auth::user()->id;
+        $post->save();
+        return back();
+    }
+
 }

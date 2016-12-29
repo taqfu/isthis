@@ -21,6 +21,9 @@
                     <a href="{{route('post.show', ['title_url'=>$comment->post->title_url, 'mob_name'=>$comment->post->mob->name])}}">{{$comment->post->title}}</a>
                  <a href="">[ {{$comment->post->mob->name}}? ]</a>
             @endif
+
+
+            @include ("Comment.tag")  
             @if (Auth::user() && Auth::user()->id==$comment->user_id)
                 <input type='button' class='btn btn-danger pull-right' value='X'/>
             @endif

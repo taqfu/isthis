@@ -52,7 +52,8 @@ Route::resource('subscription', 'SubscriptionController');
 Route::resource('user', 'UserController');
 Route::resource('vote', 'VoteController');
 
-
+Route::put('/post/{id}/tag/{tag}', ['as'=>'post.tag', 'uses'=>'PostController@tag']);
+Route::put('/comment/{id}/tag/{tag}', ['as'=>'comment.tag', 'uses'=>'CommentController@tag']);
 Route::get('/u/{username}/posts', ['as'=>'user.posts', 'uses'=>'UserController@showPosts']);
 Route::get('/u/{username}/comments', ['as'=>'user.comments', 'uses'=>'UserController@showComments']);
 Route::get('/u/{username}/judgements', ['as'=>'user.judgements', 'uses'=>'UserController@showJudgements']);

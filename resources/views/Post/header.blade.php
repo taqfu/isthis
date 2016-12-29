@@ -5,7 +5,6 @@
 ?>
 <div class='text-center'>
 @foreach ($errors->all() as $error)
-    {{var_dump($error)}}
     <div class='text-danger'>{{$error}}</div>
 @endforeach
 </div>
@@ -30,9 +29,12 @@
     <h4 class='col-md-6'>
         By:
         @include ('Post.user-link')
-        @if($post->url==null)
+        @if(Auth::user())
+            @if ($post->user_id==Auth::user()->id)
             <input type='button' value='Edit' class='btn btn-link replace-primary-button' id='replace-primary-post'/>
+            @endif
         @endif
+        @include ('Post.tag')
     </h4>
     <h4 class='col-md-6 text-right'>
         @if (Auth::user())
