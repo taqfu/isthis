@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Ban;
+use App\Election;
 use App\mob;
 use App\Moderator;
 use App\Post;
@@ -56,6 +57,11 @@ class MobController extends Controller
         $moderator->user_id = Auth::user()->id;
         $moderator->mob_id = $mob->id;
         $moderator->save();
+        $election = new Election;
+        $election->start = date('Y-m-d H:i:s');
+        $election->end = Election::fetch_end($mob->id, date('Y-m-d H:i:s'));
+        $election->mob_id = $mob->id;
+        $election->order = Election::fetch_order($mob_id);
         return back();
     }
 
