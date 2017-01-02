@@ -130,4 +130,18 @@ class CommentController extends Controller
         $comment->save();
         return back();
     }
+    public function untag($id){
+        $comment = Comment :: find ($id);
+        if (Auth::guest()){
+            return back()->withErrors("You need to be logged in to do this.");
+        }
+        if (!Moderator::are_they_a_moderator($comment->post->mob_id)){
+            return back()->withErrors("You are not a moderator of this mob.");
+        }
+        $comment->tag = null;
+        $comment->tagger = null;
+        $comment->save();
+        return back();
+        
+    }
 }

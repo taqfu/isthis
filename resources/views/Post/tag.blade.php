@@ -18,8 +18,13 @@
         <input type='submit' class='btn btn-info' value='Off Topic' />
     </form>
     @else
-        Marked as {{$post->tag}} by  <a href="{{route('user.show', ['username'=>$post->user_that_tagged->username])}}">
-        {{$post->user_that_tagged->username}}
-    </a>
+            - Marked as {{$post->tag}} by  <a href="{{route('user.show', ['username'=>$post->user_that_tagged->username])}}">
+            {{$post->user_that_tagged->username}} 
+            </a>
+        <form method="POST" action="{{route('post.untag', ['id'=>$post->id])}}" class='inline'>
+            {{csrf_field()}}
+            {{method_field('DELETE')}}
+            <input type='submit' class='btn btn-danger' value='Untag' />
+        </form> 
     @endif
 @endif

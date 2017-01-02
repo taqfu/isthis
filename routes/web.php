@@ -17,7 +17,7 @@ use App\Subscription;
 
 Route::get('/', function (){
         $subscriptions = null;
-        $posts = Post::get();
+        $posts = Post::where('tag', null)->get();
         $subscribed_mobs=[];
         if (Auth::user()){
             $subscriptions = Subscription::where('user_id', Auth::user()->id)->get();
@@ -27,8 +27,9 @@ Route::get('/', function (){
             foreach ($subscriptions as $follow){
                 $subscribed_mobs[]=$follow->mob_id;
             }
+            
             $posts = Post::whereIn('mob_id', $subscribed_mobs)
-              ->orderBy('created_at', 'desc')->get();
+              ->orderBy('created_at', 'desc')->where('tag', null)->get();
         } 
         return view('home', [
             'posts'=>$posts,
@@ -54,6 +55,8 @@ Route::resource('vote', 'VoteController');
 
 Route::put('/post/{id}/tag/{tag}', ['as'=>'post.tag', 'uses'=>'PostController@tag']);
 Route::put('/comment/{id}/tag/{tag}', ['as'=>'comment.tag', 'uses'=>'CommentController@tag']);
+Route::delete('/post/{id}/untag', ['as'=>'post.untag', 'uses'=>'PostController@untag']);
+Route::delete('/comment/{id}/untag', ['as'=>'comment.untag', 'uses'=>'CommentController@untag']);
 Route::get('/u/{username}/posts', ['as'=>'user.posts', 'uses'=>'UserController@showPosts']);
 Route::get('/u/{username}/comments', ['as'=>'user.comments', 'uses'=>'UserController@showComments']);
 Route::get('/u/{username}/judgements', ['as'=>'user.judgements', 'uses'=>'UserController@showJudgements']);

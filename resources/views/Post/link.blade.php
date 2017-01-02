@@ -5,7 +5,11 @@
         $bg_class = "";
     }
 ?>
-<div class='container {{$bg_class}}'>
+<div class='container {{$bg_class}} 
+  @if ($post->tag!=null)
+      bg-info  
+  @endif
+  '>
     <div class='col-xs-1 text-center'>
         {{$post->score }}
     </div><div class='col-xs-11'>
@@ -19,6 +23,9 @@
             <a href="{{route('m.show', ['name'=>$post->mob->name])}}">
                 [{{$post->mob->name}}?] 
             </a>
+        @endif
+        @if ($post->tag!=null)
+            <strong>{{$post->tag}}</strong>
         @endif
     </div>
 </div>

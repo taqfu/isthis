@@ -38,7 +38,9 @@
     </h4>
     <h4 class='col-md-6 text-right'>
         @if (Auth::user())
+            <a href="{{route('m.show', ['name'=>$post->mob->name])}}">
             {{$post->mob->name}}? 
+            </a>
             @if (Judgement::have_they_already_judged($post->id))
                 @include('Judgement.show')
             @else

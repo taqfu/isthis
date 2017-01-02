@@ -17,8 +17,13 @@
             <input type='submit' class='btn btn-info' value='Off Topic' />
         </form>
     @else
-        Marked as {{$comment->tag}} by  <a href="{{route('user.show', ['username'=>$comment->user_that_tagged->username])}}">
+        - Marked as {{$comment->tag}} by  <a href="{{route('user.show', ['username'=>$comment->user_that_tagged->username])}}">
         {{$comment->user_that_tagged->username}}
+        <form method="POST" action="{{route('comment.untag', ['id'=>$comment->id])}}" class='inline'>
+            {{csrf_field()}}
+            {{method_field('DELETE')}}
+            <input type='submit' class='btn btn-danger' value='Untag' />
+        </form> 
     </a>
     @endif
 @endif

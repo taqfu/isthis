@@ -65,12 +65,15 @@ class MobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($name)
+    public function show(Request $request, $name)
     {
         $mob = Mob::fetch_mob_by_name($name);
         $view_name = (Auth::user() && Ban::are_they_banned($mob->id, Auth::user()->id)) ? "Mob.banned" : "Mob.show";
+        $posts = Auth::user() && Moderator::are_they_a_moderator($mob->id) 
+          ? Post::where('mob_id', $mob->id)->get() 
+          : Post::where('mob_id', $mob->id)->where('tag', null)->get();
         return View($view_name, [
-            'posts'=>Post::where('mob_id', $mob->id)->get(),
+            'posts'=>$posts,
             'mob'=>$mob,
             'moderators'=>Moderator::where('mob_id', $mob->id)->get(),
         ]);

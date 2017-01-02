@@ -30,8 +30,12 @@
         &nbsp;
     @endif
     @include ('Post.create')
-    @foreach ($posts as $post)
+    @forelse ($posts as $post)
         @include ('Post.link', ['home'=>false])
-    @endforeach
+    @empty
+        <div class='container'>
+            No one has posted yet.
+        </div> 
+    @endforelse
     
 @endsection

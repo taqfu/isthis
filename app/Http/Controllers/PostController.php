@@ -159,5 +159,18 @@ class PostController extends Controller
         $post->save();
         return back();
     }
+    public function untag($id){
+        $post = Post :: find ($id);
+        if (Auth::guest()){
+            return back()->withErrors("You need to be logged in to do this.");
+        }
+        if (!Moderator::are_they_a_moderator($post->mob_id)){
+            return back()->withErrors("You are not a moderator of this mob.");
+        }
+        $post->tag = null;
+        $post->tagger = null;
+        $post->save();
+        return back();
+    }
 
 }
