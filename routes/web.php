@@ -43,8 +43,10 @@ Auth::routes();
 Route::post("/unban", ['as'=>'unban', 'uses'=>'BanController@unban']);
 
 Route::get('/home', 'HomeController@index');
+Route::resource('ballot', 'BallotController');
 Route::resource('ban', 'BanController');
 Route::resource('comment', 'CommentController');
+Route::resource('election', 'ElectionController');
 Route::resource('judgement', 'JudgementController');
 Route::resource('m', 'MobController');
 Route::resource('moderator', 'ModeratorController');

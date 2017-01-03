@@ -1,3 +1,7 @@
+<?php
+    use App\Election;
+    $election = Election::fetch_current($mob->id);
+?>
 @extends('layouts.app')
 @section('mob')
     <strong><a href="{{route('m.show', ['name'=>$mob->name])}}" class='navbar-text'>
@@ -13,11 +17,16 @@
         Moderators:
     @endif
     @foreach($moderators as $moderator)
+        <a href="{{route('user.show', ['username'=>$moderator->user->username])}}">{{$moderator->user->username}}</a>
         @if (Auth::user() && $moderator->user_id == Auth::user()->id)
             @include ('Moderator.destroy')
         @endif
-        <a href="{{route('user.show', ['username'=>$moderator->user->username])}}">{{$moderator->user->username}}</a>
     @endforeach
+    <span class='navbar-text pull-right'>
+        <a href="{{route('election.show', ['id'=>$election->id])}}">
+            Election #{{$election->iteration}}  Due {{$election->end}}
+        </a>
+    </span>
 @endsection
 @section('content')
     @if (Auth::user())

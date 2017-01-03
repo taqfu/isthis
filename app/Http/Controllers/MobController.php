@@ -57,11 +57,18 @@ class MobController extends Controller
         $moderator->user_id = Auth::user()->id;
         $moderator->mob_id = $mob->id;
         $moderator->save();
+        $end = Election::fetch_end($mob->id, date('Y-m-d H:i:s'));
         $election = new Election;
         $election->start = date('Y-m-d H:i:s');
-        $election->end = Election::fetch_end($mob->id, date('Y-m-d H:i:s'));
+        $election->end = $end;
         $election->mob_id = $mob->id;
-        $election->order = Election::fetch_order($mob_id);
+        $election->iteration =  1;
+        $election->save();
+        $election = new Election;
+        $election->start = $end;
+        $election->mob_id = $mob->id;
+        $election->iteration = 2;
+        $election->save();
         return back();
     }
 
