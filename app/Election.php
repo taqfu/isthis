@@ -13,6 +13,13 @@ class Election extends Model
         if (count($elections)==0){
             trigger_error("Mob #" . $mob_id . " has no elections.");
         }
+        return Election::where('mob_id', $mob_id)->orderBy('created_at', 'desc')->skip(1)->first();
+    }
+    public static function fetch_next($mob_id){
+        $elections = Election::where('mob_id', $mob_id)->orderBy('created_at', 'desc')->get();
+        if (count($elections)==0){
+            trigger_error("Mob #" . $mob_id . " has no elections.");
+        }
         return $elections->first();
     }
     public static function fetch_end($mob_id, $start){

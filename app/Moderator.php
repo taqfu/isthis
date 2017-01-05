@@ -7,11 +7,20 @@ use Auth;
 
 class Moderator extends Model
 {
-    public static function are_they_a_moderator($mob_id){
+    public static function are_they_a_moderator(){
+        if (Auth::guest()){
+            return false;
+        }
+        return count(Moderator::where('user_id', Auth::user()->id)->get())>0;
+    }
+    public static function are_they_a_moderator_of($mob_id){
         if (Auth::guest()){
             return false;
         }
         return count(Moderator::where('user_id', Auth::user()->id)->where('mob_id', $mob_id)->get())>0;
+    }
+    public static function fetch_num_of_moderators($mob_id){
+        return count(Moderator::where('mob_id', $mob_id)->get()); 
     }
     public static function fetch_moderator_by_user_id_and_mob_id($mob_id, $user_id){
         $moderators = Moderator::where('user_id', Auth::user()->id)->where('mob_id', $mob_id)->get(); 

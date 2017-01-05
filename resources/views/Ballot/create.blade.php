@@ -1,9 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class='error container text-danger lead text-center'>
+        @foreach ($errors->all() as $error)
+            {{$error}}
+        @endforeach
+    </div>
     <div class='col-md-5'></div>
     <div class='col-md-2'>
     <form method="POST" action="{{route('ballot.store')}}" class=''>
+        {{csrf_field()}}
         <div class='form-group'>
             <label>Mob:
                 <select name='mob_id' class='form-control'>

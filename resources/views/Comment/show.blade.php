@@ -46,6 +46,7 @@
               id='show-create-comment{{$comment->id}}' class='show-button btn btn-link'/> 
             @if (Auth::user() && Auth::user()->id==$comment->user_id)
                 <input type='button' class='btn btn-link replace-primary-button' id='replace-primary-edit-comment{{$comment->id}}' value='Edit'/>
+                @include ("Comment.destroy")
             @endif
             
         </div>

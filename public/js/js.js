@@ -31,4 +31,9 @@ $(document.body).ready(function () {
         }
         
     });
+    $(document).on('click', '.abandon-btn', function(event){
+        if (confirm("Are you sure you want to abandon this?")){
+            event.target.form.submit();
+        }
+    });
 });

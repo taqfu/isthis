@@ -115,7 +115,16 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = Comment::find($id);
+        if (Auth::guest()){
+            return back()->withErrors("You need to be logged in to do this.");
+        }
+        if (Auth::user()->id != $comment->user_id){
+            return back()->withErrors("You are not the owner.");
+        }
+        $comment->user_id =  0;
+        $comment->save();
+        return back();
     }
     public function tag($id, $tag){
         $comment = Comment :: find ($id);

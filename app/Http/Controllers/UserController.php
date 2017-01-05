@@ -70,7 +70,7 @@ class UserController extends Controller
         $user=User::fetch_user_by_username($username);
         return View('User.posts', [
             'user'=>$user,
-            'posts'=>Post::where('user_id', 1)->get(),
+            'posts'=>Post::where('user_id', $user->id)->get(),
         ]);
     }
     /**

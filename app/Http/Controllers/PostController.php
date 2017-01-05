@@ -130,6 +130,13 @@ class PostController extends Controller
         $this->validate($request, [
             'newPostText'=>"required|string",
         ]);
+        if (Auth::guest()){
+            return back()->withErrors("You need to be logged in to do this.");
+        }
+        if (Auth::user()->id != $post->user_id){
+            return back()->withErrors("You are not the owner.");
+        }
+        
         $post = Post::find($id); 
         $post->text = $request->newPostText;
         $post->save();
@@ -144,7 +151,16 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        if (Auth::guest()){
+            return back()->withErrors("You need to be logged in to do this.");
+        }
+        if (Auth::user()->id != $post->user_id){
+            return back()->withErrors("You are not the owner.");
+        }
+        $post->user_id =  0;
+        $post->save();
+        return back();
     }
     public function tag($id, $tag){
         $post = Post :: find ($id);

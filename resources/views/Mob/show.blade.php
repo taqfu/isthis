@@ -1,6 +1,7 @@
 <?php
     use App\Election;
-    $election = Election::fetch_current($mob->id);
+    $current_election = Election::fetch_current($mob->id);
+    $next_election = Election::fetch_next($mob->id);
 ?>
 @extends('layouts.app')
 @section('mob')
@@ -23,8 +24,13 @@
         @endif
     @endforeach
     <span class='navbar-text pull-right'>
-        <a href="{{route('election.show', ['id'=>$election->id])}}">
-            Election #{{$election->iteration}}  Due {{$election->end}}
+        <a href="{{route('election.show', ['id'=>$current_election->id])}}">
+            Current Election
+            Ends {{date('M j, Y', strtotime($current_election->end))}}
+        </a>
+        /
+        <a href="{{route('election.show', ['id'=>$next_election->id])}}">
+            Next Election
         </a>
     </span>
 @endsection
