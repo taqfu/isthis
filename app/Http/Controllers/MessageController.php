@@ -58,6 +58,9 @@ class MessageController extends Controller
             'username'=>'required|exists:users,username|string', 
             'text'=>'required|string',
         ]);
+        if (Auth::guest()){
+            return View('Message.guest');
+        }
         $user = User::fetch_user_by_username($request->username);
         if ($user==null){
             trigger_error("User #" . Auth::user()->id . " is attempting to create a 
@@ -102,7 +105,21 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'read_status'=>'required|boolean',
+        ]);
+        
+        if (Auth::guest()){
+            return View('Message.guest');
+        }
+        $message = Message::find($id);
+        if ($message==null){
+            trigger_error("User #" . Auth::user()->id . " is trying to update message #" . $message->id . " and it does not exist.");
+        }
+        $message->read = (boolean)$request->read_status;
+        $message->save();
+        return back();
+        
     }
 
     /**
