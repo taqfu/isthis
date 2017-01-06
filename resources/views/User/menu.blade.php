@@ -4,6 +4,9 @@
     $route_name = substr($route_name, 5, strlen($route_name)-5);
 ?>
 <h1 class='text-center'>{{$user->username}}</h1>
+<div>
+    <a href="{{route('message.create', ['username'=>$user->username])}}">Send Message</a>
+</div>
 @include ('Ban.create')
 <nav class="navbar navbar-default">
     <ul class='nav navbar-nav lead'>

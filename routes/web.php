@@ -15,7 +15,7 @@ use App\mob;
 use App\Post;
 use App\Subscription;
 
-Route::get('/', function (){
+Route::get('/', ['as'=>'home', function (){
         $subscriptions = null;
         $posts = Post::where('tag', null)->get();
         $subscribed_mobs=[];
@@ -36,7 +36,7 @@ Route::get('/', function (){
             'subscriptions'=>$subscriptions,
         ]);
 
-});
+}]);
         
 
 Auth::routes();
@@ -49,6 +49,7 @@ Route::resource('comment', 'CommentController');
 Route::resource('election', 'ElectionController');
 Route::resource('judgement', 'JudgementController');
 Route::resource('m', 'MobController');
+Route::resource('message', 'MessageController');
 Route::resource('moderator', 'ModeratorController');
 Route::resource('post', 'PostController');
 Route::resource('subscription', 'SubscriptionController');
@@ -62,5 +63,4 @@ Route::delete('/comment/{id}/untag', ['as'=>'comment.untag', 'uses'=>'CommentCon
 Route::get('/u/{username}/posts', ['as'=>'user.posts', 'uses'=>'UserController@showPosts']);
 Route::get('/u/{username}/comments', ['as'=>'user.comments', 'uses'=>'UserController@showComments']);
 Route::get('/u/{username}/judgements', ['as'=>'user.judgements', 'uses'=>'UserController@showJudgements']);
-
 Route::get('/m/{mob_name}/{title_url}', ['as'=>'post.show', 'uses'=>'PostController@show']);
