@@ -21,7 +21,8 @@ class MessageController extends Controller
             return View('Message.guest');
         }
         return View('Message.index', [
-            'messages'=>Message::where('to', Auth::user()->id)->get(),
+            'messages'=>Message::orWhere('to', Auth::user()->id)->orWhere('from', Auth::user()->id)
+              ->orderBy('created_at', 'desc')->get(),
         ]);
     }
 
@@ -66,12 +67,15 @@ class MessageController extends Controller
             trigger_error("User #" . Auth::user()->id . " is attempting to create a 
               message to a username that does not exist:" . $request->username);
         }
+        if ($user==Auth::user()){
+            trigger_error("User #" . Auth::user()->id . " tried to send a message to themselves.");
+        }
         $message = new Message;
         $message->from = Auth::user()->id;
         $message->to = $user->id; 
         $message->text = $request->text;
         $message->save();
-        return redirect(route('home'));
+        return redirect(route('message.index'));
     }
 
     /**
